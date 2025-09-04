@@ -195,3 +195,152 @@ insert into department values
 ('D5','HR',"samule");
 select * from department;
 select * from employee;
+
+
+
+-- inner join
+-- returns all the record which is mayching in both the table
+select e.empid,e.empname,e.salary,e.deptid,d.deptid,d.deptname
+from employee as e
+inner join department as d
+on e.deptid=d.deptid;
+
+
+-- right join
+select e.empid,e.empname,e.salary,e.deptid,d.deptid,d.deptname
+from employee as e
+right join department as d
+on e.deptid=d.deptid;
+
+-- left join
+select e.empid,e.empname,e.salary,e.deptid,d.deptid,d.deptname
+from employee as e
+left join department as d
+on e.deptid=d.deptid;
+-- outer join
+select e.empid,e.empname,e.salary,e.deptid,d.deptid,d.deptname
+from employee as e
+right join department as d
+on e.deptid=d.deptid
+union
+select e.empid,e.empname,e.salary,e.deptid,d.deptid,d.deptname
+from employee as e
+left join department as d
+on e.deptid=d.deptid;
+
+-- =============================================================================================
+-- 								queries and sub queries
+-- ===========================================================================================
+create database employee_query;
+use employee_query;
+
+create table employee 
+(emp_id int primary key ,emp_name varchar(30) , dept_name varchar(20) , emp_salary int );
+insert into employee values
+(101 , 'John', 'HR' , 10000),
+(201,'Mary','Finance',20000),
+(301,'Zara','IT',30000),
+(401,'Rida','Sales',50000),
+(501, 'Ram','HR',40000),
+(601,'Varun','IT',70000),
+(701,'Araav','HR',60000),
+(801,'Joy','IT',90000),
+(302,'Arun','Sales',40000),
+(403,'Joe','Finance',35000),
+(704,"Dia","Finance",26000);
+
+select * from employee;
+
+-- find the unique names in the dept col
+select distinct(dept_name)
+from employee;
+
+-- find max,min,avg,sum,count--(agreegatefun) in emp_salary
+select max(emp_salary) from employee;
+select min(emp_salary) from employee;
+select avg(emp_salary) from employee;
+select sum(emp_salary) from employee;
+
+select min(emp_salary), max(emp_salary), avg(emp_salary), sum(emp_salary) from employee;
+
+-- find number of employee
+select count(emp_name) from employee;
+
+-- find the details of the employees belongs to sales dept
+select emp_id,emp_name ,dept_name 
+from employee 
+where dept_name ="sales";
+
+select * 
+from employee 
+where dept_name ="sales";
+
+-- find the name of the employee belongs to sales dept whos's salary is 40000
+
+select emp_name
+from employee 
+where dept_name='sales' and emp_salary=40000;
+
+-- find the details of the employess who's salary is less than 40000 
+select * from employee where emp_salary<40000;
+
+-- find the salary of the employee who's name is Dia
+select salary,emp_name from employee where emp_name="Dia";
+
+-- find the employee name who is getting max salary
+select max(emp_salary) from employee;
+
+select emp_name
+from employee
+where emp_salary=90000;
+
+-- sub query
+select emp_name
+from employee
+where emp_salary=(select max(emp_salary) from employee);
+
+-- find the employee name who is getting min salary
+select emp_name
+from employee
+where emp_salary=(select min(emp_salary) from employee);
+
+-- find the employee name who is getting more than avg salary
+select emp_name
+from employee
+where emp_salary>(select avg(emp_salary) from employee);
+
+-- find the employee details who's taking salary greater than employee with an id 701
+select * 
+from employee 
+where emp_salary > (select emp_Salary from employee where emp_id=701);
+
+-- find number of employees in each dept
+select dept_name,count(emp_name)
+from employee
+group by dept_name;
+
+-- find the highest salary in each dept
+select max(emp_salary)
+from employee
+group by dept_name;
+
+
+-- find the details of the employee who's getting highest salary in each dept
+select * 
+from employee
+where emp_salary in (select max(emp_salary)
+					from employee
+					group by dept_name);
+                    
+                    
+-- find the second highest salary
+select max(emp_salary)
+from employee
+where emp_salary <(select max(emp_salary)from employee);
+
+
+select emp_salary
+from employee
+where emp_salary <(select max(emp_salary)from employee)
+order by emp_salary
+desc limit 1;
