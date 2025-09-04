@@ -225,3 +225,127 @@ left join department as d
 on e.deptid=d.deptid;
 
 
+
+-- ========================================================================
+-- 					query
+-- ========================================================================
+
+create database employee_query;
+use employee_query;
+
+create table employee 
+(emp_id int primary key ,emp_name varchar(30) , dept_name varchar(20) , emp_salary int );
+insert into employee values
+(101 , 'John', 'HR' , 10000),
+(201,'Mary','Finance',20000),
+(301,'Zara','IT',30000),
+(401,'Rida','Sales',50000),
+(501, 'Ram','HR',40000),
+(601,'Varun','IT',70000),
+(701,'Araav','HR',60000),
+(801,'Joy','IT',90000),
+(302,'Arun','Sales',40000),
+(403,'Joe','Finance',35000),
+(704,"Dia","Finance",26000);
+
+
+select * from employee;
+
+-- retrieve dept _name column
+select dept_name from employee;
+
+-- find the unique values in the dept_name
+select distinct(dept_name) from employee;
+-- aggregate functions--min,max,avg,count,sum
+-- find the max,min,avg salary of an employee
+select max(emp_salary) from employee; 
+select min(emp_salary) from employee;
+select avg(emp_salary) from employee;
+select sum(emp_salary)from employee;
+
+
+select max(emp_salary),min(emp_salary),avg(emp_salary) from employee;
+
+-- find the number of employees
+select count(emp_name) from employee;
+
+-- find the details of the employee belongs to sales dept
+select * 
+from employee
+where dept_name="sales";
+
+-- find the number of employees working in HR dept
+select count(emp_name) 
+from employee 
+where dept_name = "HR";
+
+-- find the name of the employee belongs to sales dept who's salary is 40000
+select emp_name 
+from employee 
+where dept_name = "sales" and emp_salary= "40000";
+
+-- find the details of the employees who's salary is >40000
+SELECT * 
+FROM employee 
+WHERE emp_salary>40000;
+
+-- find the salary of the employee who's name is dia
+SELECT emp_salary
+from employee
+where emp_name = 'Dia';
+ 
+-- find the name of the employee who's getting highest salary
+select max(emp_salary) from employee;
+
+SELECT emp_name 
+FROM employee 
+WHERE emp_salary=90000;
+
+SELECT emp_name 
+FROM employee 
+WHERE emp_salary=(select max(emp_salary) from employee);
+
+-- find the name of the employess who is getting more than avg salary
+select emp_name 
+from employee 
+where emp_salary > (select avg(emp_salary) from employee);
+
+-- find the details of the employee who's is more salary than employee with id 701
+SELECT * 
+FROM employee 
+WHERE emp_salary>(SELECT emp_salary from employee WHERE emp_id=701);
+
+-- find the number of employees working in each dept
+select dept_name,count(emp_name)
+from employee
+group by dept_name; 
+
+
+
+-- find the highest salary from each dept
+select max(emp_salary)
+from employee 
+group by dept_name;
+
+select emp_name,dept_name
+from employee
+where emp_salary in (select max(emp_salary)
+					from employee 
+					group by dept_name);
+                    
+-- find the second highest salary
+select max(emp_salary) 
+from employee
+where emp_salary<(select max(emp_salary) 
+				from employee
+				where emp_salary);
+ -- method 2               
+select emp_salary
+from employee
+where emp_salary < (select max(emp_salary)
+					from employee)
+order by emp_salary
+desc 
+limit 1;
+
+
