@@ -17,6 +17,12 @@ CREATE TABLE student (
     FOREIGN KEY (dept_id) REFERENCES Department(dept_id)
 );
 
+CREATE TABLE studentLog (
+    log_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_roll VARCHAR(20),
+    action_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    action_type VARCHAR(10)
+);
 
 SELECT * FROM department;
 INSERT INTO department (dept_id, dept_name,dept_head) VALUES
