@@ -9,7 +9,7 @@ CREATE TABLE department (
 );
 
 CREATE TABLE student (
-    student_id INT AUTO_INCREMENT PRIMARY KEY,   -- Surrogate + Primary Key
+    student_id INT AUTO_INCREMENT PRIMARY KEY,   --  Primary Key
     student_roll VARCHAR(20) UNIQUE,             -- Unique Key (Candidate Key)
     name VARCHAR(50),
     email VARCHAR(100) UNIQUE,                   -- Alternate Key (Candidate Key)
